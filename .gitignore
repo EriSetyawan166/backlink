@@ -1,6 +1,2 @@
 # .gitignore
 .env
-blogspot_links.txt
-links.txt
-preprocessed_links.txt
-report.txt
