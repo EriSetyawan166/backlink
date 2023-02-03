@@ -11,7 +11,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
 import os
-
+import hashlib
+import random
+BASE_PATH = os.getcwd()
 load_dotenv()
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
@@ -38,30 +40,53 @@ links_array = []
 chrome_option = get_chrome_option(True)
 driver = uc.Chrome(use_subprocess=True, options=chrome_option)
 
-# driver = webdriver.Chrome("chromedriver.exe") 
+driver = webdriver.Chrome("chromedriver.exe",chrome_options=chrome_option) 
 
+def dump_html(html_text: str):
+    path = BASE_PATH
 
+    string_file = str(123)
+    print(string_file)
+    file_name = hashlib.sha256(string_file.encode("utf-8")).hexdigest()
+
+    file_extension = ".html"
+
+    file = path + file_name + file_extension
+
+    with open(file, "wb") as f:
+        f.write(html_text.encode("utf-8"))
+
+    return file
 
 def login_blogger(email,pw,txt):
     print("logging in......")
     wait = WebDriverWait(driver, timeout)
     x = 5
     #Loads website :
-    driver.get("https://accounts.google.com/v3/signin/identifier?dsh=S-2063167391%3A1674885142876686&continue=https%3A%2F%2Fwww.blogger.com%2Fhome&hl=en-US&ltmpl=blogger&rip=1&sacu=1&service=blogger&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AWnogHfebzShS-DpmINFOhbqw0itZIOawElnHLoDLeyxf_OUOfzHKoZtNzwnDVrcPzRInVYjGuhnSw")
+    driver.get("https://accounts.google.com/v3/signin/identifier?dsh=S1494194976%3A1675447820795540&continue=https%3A%2F%2Fwww.blogger.com%2Fhome%23create&hl=en-US&ltmpl=blogger&rip=1&sacu=1&service=blogger&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AWnogHe3QQ0ZorrvHXHsoIJN5jlzc-IK7ngCixzmmB9W6o4Zek-CZyBL8neYz_yQCytXIwtb8qxJtA")
     time.sleep(x)
 
     search = driver.find_element(By.NAME,"identifier")
     # Memasukkan credentials
     print("Filling up credentials....")
+    time.sleep(x)
+    
     search.send_keys(email)
+    time.sleep(x)
+    
     search.send_keys(Keys.RETURN)
-    # time.sleep(x)
+    time.sleep(x)
+    file = dump_html(driver.page_source)
+    
+    # html_content = driver.page_source
+
+    # # Mencetak HTML source ke console
+    # print(html_content)
     search = wait.until(EC.presence_of_element_located((By.NAME,"Passwd")))
     time.sleep(x)
     search = driver.find_element(By.NAME,"Passwd")
     search.send_keys(pw)
     search.send_keys(Keys.RETURN)
-
         
     time.sleep(20)
     # opening the file in read mode
