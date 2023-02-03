@@ -9,11 +9,12 @@ from datetime import datetime
 import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
-
 
 def get_chrome_option(headless: bool=False)-> Options:
 
