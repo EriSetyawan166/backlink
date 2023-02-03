@@ -72,11 +72,10 @@ def login_blogger(email,pw,txt):
     time.sleep(x)
     
     search.send_keys(email)
-    time.sleep(x)
     
     search.send_keys(Keys.RETURN)
     time.sleep(x)
-    file = dump_html(driver.page_source)
+    # file = dump_html(driver.page_source)
     
     # html_content = driver.page_source
 
