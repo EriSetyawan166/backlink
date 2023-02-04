@@ -64,6 +64,7 @@ def login_blogger(email,pw,txt):
         print("Probably captcha is causing this error")
         print("you can try to use nonheadless chrome by setting the boolean to false to check if there's appear authentication:")
         print("chrome_option = get_chrome_option(False)")
+        print("after finishing verification try using headless again by changing it to True")
         return
 
         
