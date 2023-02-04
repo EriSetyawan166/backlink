@@ -1,32 +1,22 @@
-from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import undetected_chromedriver as uc
-from selenium.webdriver.chrome.options import Options
 import time
 import sys
-
-def get_chrome_option(headless: bool=False)-> Options:
-    chrome_option = Options()
-    if headless:
-        chrome_option.add_argument('--headless')
-        chrome_option.add_argument('--no-sandbox')
-        chrome_option.add_argument('--disable-gpu')
-        chrome_option.add_argument('--window-size=1200x762')
-    chrome_option.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36")
-
-    return  chrome_option
+from driver import get_chrome_option
 
 chrome_option = get_chrome_option(True)
 # Inisialisasi driver untuk mengakses browser
-driver = webdriver.Chrome("chromedriver.exe", chrome_options=chrome_option)
+# driver = webdriver.Chrome("chromedriver.exe", chrome_options=chrome_option)
+driver = uc.Chrome(use_subprocess=True, options=chrome_option)
 wait = WebDriverWait(driver, 10)
 
 # Perintah untuk mengunjungi Google
-driver.get("https://www.google.com/")
+with driver:
+  driver.get("https://www.google.com/")
 
 # Mencari elemen input pencarian di halaman
 search_box = driver.find_element(By.NAME, "q")
@@ -44,31 +34,23 @@ while True:
   print("Scraping page " + str(i) + "....")
   # Mencari semua elemen link di halaman hasil pencarian
   links =  wait.until(EC.presence_of_element_located((By.XPATH,"//div[@class='yuRUbf']//a[@href]")))
-  links = driver.find_elements(By.XPATH,"//div[@class='yuRUbf']//a[@href]")
-  # frame = wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="comment-editor"]')))
+  links = driver.find_elements(By.XPATH,"//div[@class='yuRUbf']//a[@href]") 
 
   #Membuat array untuk menyimpan link
   links_array = []
-
   # Memasukkan link yang didapatkan ke dalam array
   for link in links:
-    links_array.append(link.get_attribute("href"))
-      # if link.get_attribute("href").startswith("https://translate.") or "googleusercontent" in link.get_attribute("href"):
-      #   print("not")
-      # else:
-      #   links_array.append(link.get_attribute("href"))
-
-
+    link_href = link.get_attribute("href")
+    if "translate" not in link_href and "webcache" not in link_href:
+      links_array.append(link_href)
 
   # Membuat file teks untuk menyimpan link
   with open("blogspot_links.txt", "a") as file:
-    for link in links:
+    for link in links_array:
       # Menulis link ke dalam file teks
-      file.write(link.get_attribute("href") + "\n")
+      file.write(link + "\n")
 
-  
-  time.sleep(3)
-
+  time.sleep(5)
   # Mencari tombol "Next"
   try:
     td_element = driver.find_element(By.XPATH, "//*[@id='botstuff']/div/div[2]/table/tbody/tr/td[12]")
