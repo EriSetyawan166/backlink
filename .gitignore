@@ -3,3 +3,5 @@
 __pycache__
 blogspot_links.txt
 report.txt
+cookies_login.pkl
+cookies.pkl
