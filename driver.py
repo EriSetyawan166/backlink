@@ -12,4 +12,6 @@ def get_chrome_option(headless: bool=False)-> Options:
         chrome_option.add_argument('--window-size=1200x762')
     chrome_option.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36")
     chrome_option.add_experimental_option("prefs", prefs)
+    chrome_option.add_argument('--disable-javascript')
+    chrome_option.add_argument('--disable-extensions')
     return  chrome_option

@@ -10,6 +10,17 @@ import os
 # Inisialisasi driver untuk mengakses browser
 chrome_option = get_chrome_option(True)
 driver = uc.Chrome(use_subprocess=True, options=chrome_option)
+print("""
+░██████╗░█████╗░██████╗░░█████╗░██████╗░████████╗██╗░░██╗██╗░██████╗
+██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║░░██║██║██╔════╝
+╚█████╗░██║░░╚═╝██████╔╝███████║██████╔╝░░░██║░░░███████║██║╚█████╗░
+░╚═══██╗██║░░██╗██╔══██╗██╔══██║██╔═══╝░░░░██║░░░██╔══██║██║░╚═══██╗
+██████╔╝╚█████╔╝██║░░██║██║░░██║██║░░░░░░░░██║░░░██║░░██║██║██████╔╝
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░░░░╚═╝░░░╚═╝░░╚═╝╚═╝╚═════╝░""")
+
+print("""\n
+█▄▄ █▄█   █▀▀ █░░ █ █▀▄▀█ █▀▀ █░░ ▄▀█ █▀▄▀█
+█▄█ ░█░   █▄█ █▄▄ █ █░▀░█ █▄█ █▄▄ █▀█ █░▀░█\n""")
 
 #do scraping links
 try:
@@ -27,7 +38,7 @@ try:
 #handling for capthca
 except Exception as e:
     driver.quit()
-    chrome_option = get_chrome_option(False)    
+    chrome_option = get_chrome_option(True)    
     driver = uc.Chrome(use_subprocess=True, options=chrome_option)
     searching(driver, "testing")
     input("Press 'Enter' if you finish the captcha and google search is loaded")
