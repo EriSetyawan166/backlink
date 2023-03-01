@@ -38,7 +38,7 @@ try:
 #handling for capthca
 except Exception as e:
     driver.quit()
-    chrome_option = get_chrome_option(True)    
+    chrome_option = get_chrome_option(False)    
     driver = uc.Chrome(use_subprocess=True, options=chrome_option)
     searching(driver, "testing")
     input("Press 'Enter' if you finish the captcha and google search is loaded")
