@@ -10,7 +10,7 @@ def send_comments(links, driver):
     # opening the file in read mode
     success = 0
     failed = 0
-    timeout = 10
+    timeout = 30
     wait = WebDriverWait(driver, timeout)
     my_file = open(links, "r")
     data = my_file.read()
